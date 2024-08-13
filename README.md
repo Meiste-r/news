@@ -1,4 +1,4 @@
-##News
+News
 
 This project is a simple news getter written in go.
 
