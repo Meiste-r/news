@@ -14,7 +14,7 @@ import (
 var Country string
 var Category string
 var Query string
-var HowOften uint
+var HowOften int
 
 var checknewsCmd = &cobra.Command{
 	Use:   "checknews",
@@ -44,12 +44,15 @@ var checknewsCmd = &cobra.Command{
 			return
 		}
 
-		if HowOften > uint(thl.TotalResults) {
-			HowOften = uint(thl.TotalResults)
+		if HowOften > len(thl.News.Articles) {
+			HowOften = len(thl.News.Articles)
+
 		}
+		fmt.Println(HowOften)
+		fmt.Println(len(thl.News.Articles))
 
 		//printing results
-		for i := 0; i < int(HowOften); i++ {
+		for i := 0; i < HowOften-1; i++ {
 			fmt.Println("Title: " + thl.Articles[i].Title)
 			fmt.Println("=================================")
 			fmt.Println("Published at: " + thl.Articles[i].PublishedAt)
@@ -68,7 +71,7 @@ func init() {
 	checknewsCmd.PersistentFlags().StringVarP(&Country, "country", "c", "", "Passes a country to search for")
 	checknewsCmd.PersistentFlags().StringVarP(&Category, "category", "t", "", "Passes a category to search for")
 	checknewsCmd.PersistentFlags().StringVarP(&Query, "query", "q", "", "Passes a query to search for")
-	checknewsCmd.PersistentFlags().UintVarP(&HowOften, "number", "n", 0, "Passes in how many results shall been shown")
+	checknewsCmd.PersistentFlags().IntVarP(&HowOften, "number", "n", 10, "Passes in how many results shall been shown")
 
 	rootCmd.AddCommand(checknewsCmd)
 
